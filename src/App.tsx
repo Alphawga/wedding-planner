@@ -9,7 +9,7 @@ import { BridalParty } from './pages/BridalParty';
 function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen flex flex-col max-w-md mx-auto relative bg-cream shadow-xl">
+      <div className="min-h-screen flex flex-col w-full relative bg-cream">
         <main className="flex-1 overflow-y-auto">
           <Routes>
             <Route path="/" element={<Dashboard />} />

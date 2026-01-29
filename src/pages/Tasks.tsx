@@ -50,7 +50,7 @@ export function Tasks() {
     const completedCount = tasks.filter(t => t.status === 'Completed').length;
 
     return (
-        <div className="pb-24 px-4 pt-5">
+        <div className="pb-24 px-4 pt-5 max-w-3xl mx-auto w-full">
             {/* Header */}
             <div className="mb-6">
                 <h1 className="text-2xl font-semibold text-warm-800 heading-serif">To-Do List</h1>
