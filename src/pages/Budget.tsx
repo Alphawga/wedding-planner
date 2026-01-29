@@ -14,7 +14,7 @@ export function Budget() {
 
     const categoryTotals = useMemo(() => getCategoryTotals(), [getCategoryTotals]);
     const budgetProgress = Math.round((stats.totalPaid / stats.totalBudget) * 100);
-    const remaining = stats.totalBudget - stats.totalPaid;
+
 
     return (
         <div className="pb-24 px-5 pt-8">
@@ -65,8 +65,8 @@ export function Budget() {
                 <button
                     onClick={() => setActiveTab('overview')}
                     className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all ${activeTab === 'overview'
-                            ? 'bg-white text-warm-800 shadow-sm'
-                            : 'text-warm-500'
+                        ? 'bg-white text-warm-800 shadow-sm'
+                        : 'text-warm-500'
                         }`}
                 >
                     By Category
@@ -74,8 +74,8 @@ export function Budget() {
                 <button
                     onClick={() => setActiveTab('items')}
                     className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all ${activeTab === 'items'
-                            ? 'bg-white text-warm-800 shadow-sm'
-                            : 'text-warm-500'
+                        ? 'bg-white text-warm-800 shadow-sm'
+                        : 'text-warm-500'
                         }`}
                 >
                     All Items

@@ -1,4 +1,4 @@
-import { differenceInDays, format, parseISO, isAfter, isBefore } from 'date-fns';
+import { differenceInDays, format, parseISO, isBefore } from 'date-fns';
 
 export function formatCurrency(amount: number): string {
     return new Intl.NumberFormat('en-NG', {

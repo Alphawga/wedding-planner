@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight, Heart, Calendar, CheckCircle2, Loader2 } from 'lucide-react';
-import { Card, CardContent, Badge, ProgressBar } from '../components/ui';
+import { Card, CardContent, ProgressBar } from '../components/ui';
 import { useTasks } from '../hooks/useTasks';
 import { useBudget } from '../hooks/useBudget';
 import { useSettings } from '../hooks/useSettings';
