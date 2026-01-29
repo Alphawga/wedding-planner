@@ -38,7 +38,7 @@ export function BridalParty() {
     }, [filteredMembers]);
 
     return (
-        <div className="pb-24 px-5 pt-8">
+        <div className="pb-24 px-4 pt-5">
             {/* Header */}
             <div className="mb-6">
                 <h1 className="text-2xl font-semibold text-warm-800 heading-serif">Bridal Party</h1>
@@ -172,8 +172,8 @@ function MemberCard({ member, onClick }: { member: BridalPartyMember; onClick: (
         <Card onClick={onClick}>
             <CardContent className="flex items-center gap-4 py-4">
                 <div className={`w-12 h-12 rounded-full flex items-center justify-center font-semibold text-sm ${isBrideSide
-                        ? 'bg-gradient-to-br from-primary-100 to-primary-200 text-primary-600'
-                        : 'bg-gradient-to-br from-blue-100 to-blue-200 text-blue-600'
+                    ? 'bg-gradient-to-br from-primary-100 to-primary-200 text-primary-600'
+                    : 'bg-gradient-to-br from-blue-100 to-blue-200 text-blue-600'
                     }`}>
                     {getInitials(member.name)}
                 </div>
@@ -182,7 +182,7 @@ function MemberCard({ member, onClick }: { member: BridalPartyMember; onClick: (
                     <p className="text-xs text-warm-500 mt-0.5">{member.role}</p>
                     <div className="flex items-center gap-3 mt-2">
                         <span className={`inline-flex items-center gap-1 text-xs ${member.outfit_status === 'Ready' ? 'text-green-600' :
-                                member.outfit_status === 'In Progress' ? 'text-amber-600' : 'text-warm-400'
+                            member.outfit_status === 'In Progress' ? 'text-amber-600' : 'text-warm-400'
                             }`}>
                             {member.outfit_status === 'Ready' ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
                             Outfit
@@ -240,8 +240,8 @@ function MemberDetailModal({
             <div className="p-5 space-y-5">
                 <div className="flex items-center gap-4">
                     <div className={`w-16 h-16 rounded-full flex items-center justify-center font-bold text-xl ${isBrideSide
-                            ? 'bg-gradient-to-br from-primary-100 to-primary-200 text-primary-600'
-                            : 'bg-gradient-to-br from-blue-100 to-blue-200 text-blue-600'
+                        ? 'bg-gradient-to-br from-primary-100 to-primary-200 text-primary-600'
+                        : 'bg-gradient-to-br from-blue-100 to-blue-200 text-blue-600'
                         }`}>
                         {getInitials(member.name)}
                     </div>
@@ -274,7 +274,7 @@ function MemberDetailModal({
                     <div className="flex justify-between items-center">
                         <span className="text-warm-500">Outfit Status</span>
                         <span className={`pill ${member.outfit_status === 'Ready' ? 'pill-sage' :
-                                member.outfit_status === 'In Progress' ? 'pill-gold' : 'bg-warm-200 text-warm-600'
+                            member.outfit_status === 'In Progress' ? 'pill-gold' : 'bg-warm-200 text-warm-600'
                             }`}>
                             {member.outfit_status}
                         </span>

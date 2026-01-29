@@ -27,7 +27,7 @@ export function Vendors() {
     }, [vendors]);
 
     return (
-        <div className="pb-24 px-5 pt-8">
+        <div className="pb-24 px-4 pt-5">
             {/* Header */}
             <div className="mb-6">
                 <h1 className="text-2xl font-semibold text-warm-800 heading-serif">Vendors</h1>
@@ -51,8 +51,8 @@ export function Vendors() {
                 <button
                     onClick={() => setCategoryFilter('all')}
                     className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${categoryFilter === 'all'
-                            ? 'bg-primary-500 text-white'
-                            : 'bg-white text-warm-600 border border-warm-200'
+                        ? 'bg-primary-500 text-white'
+                        : 'bg-white text-warm-600 border border-warm-200'
                         }`}
                 >
                     All
@@ -62,8 +62,8 @@ export function Vendors() {
                         key={cat}
                         onClick={() => setCategoryFilter(cat)}
                         className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${categoryFilter === cat
-                                ? 'bg-primary-500 text-white'
-                                : 'bg-white text-warm-600 border border-warm-200'
+                            ? 'bg-primary-500 text-white'
+                            : 'bg-white text-warm-600 border border-warm-200'
                             }`}
                     >
                         {cat}

@@ -44,7 +44,7 @@ export function Dashboard() {
     }
 
     return (
-        <div className="pb-24 px-5 pt-8">
+        <div className="pb-24 px-4 pt-5">
             {/* Header with couple illustration */}
             <div className="text-center mb-8">
                 <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
