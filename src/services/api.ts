@@ -65,4 +65,6 @@ export const partyApi = {
 // Settings
 export const settingsApi = {
     get: () => fetchApi<Settings>('/settings'),
+    update: (settings: Partial<Settings>) =>
+        fetchApi<Settings>('/settings', { method: 'POST', body: JSON.stringify(settings) }),
 };

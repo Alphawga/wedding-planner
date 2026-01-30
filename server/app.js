@@ -560,6 +560,70 @@ app.get('/api/settings', async (req, res) => {
     }
 });
 
+app.post('/api/settings', async (req, res) => {
+    try {
+        const settingsUpdates = req.body;
+
+        const response = await sheets.spreadsheets.values.get({
+            spreadsheetId: SPREADSHEET_ID,
+            range: 'Settings!A:B',
+        });
+        const rows = response.data.values || [];
+
+        // Map key -> rowIndex
+        const keyMap = new Map();
+        rows.forEach((row, index) => {
+            if (row[0]) keyMap.set(row[0], index);
+        });
+
+        const updateRequests = [];
+        const appendValues = [];
+
+        for (const [key, value] of Object.entries(settingsUpdates)) {
+            if (keyMap.has(key)) {
+                const rowIndex = keyMap.get(key);
+                updateRequests.push({
+                    range: `Settings!B${rowIndex + 1}`,
+                    values: [[value]]
+                });
+            } else {
+                appendValues.push([key, value]);
+            }
+        }
+
+        // Execute updates using batchUpdate
+        if (updateRequests.length > 0) {
+            const data = updateRequests.map(req => ({
+                range: req.range,
+                values: req.values
+            }));
+
+            await sheets.spreadsheets.values.batchUpdate({
+                spreadsheetId: SPREADSHEET_ID,
+                requestBody: {
+                    valueInputOption: 'RAW',
+                    data: data
+                }
+            });
+        }
+
+        // Execute appends
+        if (appendValues.length > 0) {
+            await sheets.spreadsheets.values.append({
+                spreadsheetId: SPREADSHEET_ID,
+                range: 'Settings!A:B',
+                valueInputOption: 'RAW',
+                requestBody: { values: appendValues }
+            });
+        }
+
+        res.json({ success: true, ...settingsUpdates });
+    } catch (error) {
+        console.error('Error updating settings:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Health check
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });

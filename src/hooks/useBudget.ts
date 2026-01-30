@@ -1,12 +1,14 @@
 import { useState, useCallback, useEffect } from 'react';
 import type { BudgetItem } from '../shared/types';
 import { budgetApi, settingsApi } from '../services/api';
+import { useToast } from '../components/ui';
 
 export function useBudget() {
     const [items, setItems] = useState<BudgetItem[]>([]);
     const [totalBudget, setTotalBudget] = useState(5000000); // Default fallback
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const { showToast } = useToast();
 
     useEffect(() => {
         loadData();
@@ -20,13 +22,15 @@ export function useBudget() {
                 budgetApi.getAll(),
                 settingsApi.get().catch(() => ({ total_budget: 5000000 }))
             ]);
-            setItems(budgetItems);
+            // Reverse to show newest first
+            setItems(budgetItems.reverse());
             if (settings.total_budget) {
                 setTotalBudget(settings.total_budget);
             }
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to load budget');
             console.error('Error loading budget:', err);
+            showToast('Failed to load budget', 'error');
         } finally {
             setIsLoading(false);
         }
@@ -35,34 +39,40 @@ export function useBudget() {
     const addItem = useCallback(async (item: Omit<BudgetItem, 'budget_id'>) => {
         try {
             const newItem = await budgetApi.create(item as Partial<BudgetItem>);
-            setItems(prev => [...prev, newItem]);
+            setItems(prev => [newItem, ...prev]);
+            showToast('Budget item added successfully', 'success');
             return newItem;
         } catch (err) {
             console.error('Error adding budget item:', err);
+            showToast('Failed to add budget item', 'error');
             throw err;
         }
-    }, []);
+    }, [showToast]);
 
     const updateItem = useCallback(async (id: string, updates: Partial<BudgetItem>) => {
         try {
             const updated = await budgetApi.update(id, updates);
             setItems(prev => prev.map(i => i.budget_id === id ? { ...i, ...updated } : i));
+            showToast('Budget item updated successfully', 'success');
             return updated;
         } catch (err) {
             console.error('Error updating budget item:', err);
+            showToast('Failed to update budget item', 'error');
             throw err;
         }
-    }, []);
+    }, [showToast]);
 
     const deleteItem = useCallback(async (id: string) => {
         try {
             await budgetApi.delete(id);
             setItems(prev => prev.filter(i => i.budget_id !== id));
+            showToast('Budget item deleted successfully', 'success');
         } catch (err) {
             console.error('Error deleting budget item:', err);
+            showToast('Failed to delete budget item', 'error');
             throw err;
         }
-    }, []);
+    }, [showToast]);
 
     const recordPayment = useCallback(async (id: string, amount: number, method: string) => {
         const item = items.find(i => i.budget_id === id);

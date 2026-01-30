@@ -1,7 +1,8 @@
-import { useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight, Heart, Calendar, CheckCircle2, Loader2 } from 'lucide-react';
+import { ChevronRight, Heart, Calendar, CheckCircle2, Loader2, Settings as SettingsIcon } from 'lucide-react';
 import { Card, CardContent, ProgressBar } from '../components/ui';
+import { SettingsModal } from '../components/SettingsModal';
 import { useTasks } from '../hooks/useTasks';
 import { useBudget } from '../hooks/useBudget';
 import { useSettings } from '../hooks/useSettings';
@@ -11,7 +12,8 @@ import { formatCurrency, getDaysUntil, formatShortDate, isOverdue } from '../lib
 export function Dashboard() {
     const { tasks, stats, getUrgentTasks, isLoading: tasksLoading } = useTasks();
     const { stats: budgetStats, isLoading: budgetLoading } = useBudget();
-    const { settings, isLoading: settingsLoading } = useSettings();
+    const { settings, updateSettings, isLoading: settingsLoading } = useSettings();
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
     const isLoading = tasksLoading || budgetLoading || settingsLoading;
 
@@ -44,7 +46,16 @@ export function Dashboard() {
     }
 
     return (
-        <div className="pb-24 px-4 pt-5 max-w-3xl mx-auto w-full">
+        <div className="pb-24 px-4 pt-5 max-w-3xl mx-auto w-full relative">
+            {/* Settings Button */}
+            <button
+                onClick={() => setIsSettingsOpen(true)}
+                className="absolute top-5 right-4 p-2 text-warm-400 hover:text-primary-500 transition-colors"
+                aria-label="Settings"
+            >
+                <SettingsIcon className="w-6 h-6" />
+            </button>
+
             {/* Header with couple illustration */}
             <div className="text-center mb-8">
                 <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
@@ -191,6 +202,13 @@ export function Dashboard() {
                     </Card>
                 </div>
             )}
+
+            <SettingsModal
+                isOpen={isSettingsOpen}
+                onClose={() => setIsSettingsOpen(false)}
+                settings={settings}
+                onUpdate={updateSettings}
+            />
         </div>
     );
 }
